@@ -28,7 +28,7 @@ export const getChapter = (state, manga_id, chapterId) => {
     const manga = getManga(state, manga_id)
     const chapters = manga.chapters
     const chapter = chapters[chapterId]
-    const content = chapter[Object.keys(chapter)[0]].content
+    const content = chapter.content
     return content
 }
 

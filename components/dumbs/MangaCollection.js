@@ -14,8 +14,8 @@ const groupBy3 = (array) => {
 }
 
 const MangaItem = ({ title, thumbnail, onPress }) => (
-    <TouchableHighlight onPress={onPress}>
-        <View style={styles.item}>
+    <TouchableHighlight onPress={onPress} style={{flex: 1}}>
+        <View style={{flex: 1}}>
             <Image style={styles.thumbnail} source={{uri: thumbnail}} />
             <Text style={styles.title} numberOfLines={2}>{title}</Text>
         </View>
@@ -26,7 +26,7 @@ const MangaItem = ({ title, thumbnail, onPress }) => (
 const renderRow = ({ mangaGroup, onMangaPress }) => (
     <View style={styles.row}>
         {mangaGroup.map(({ manga_id, thumbnail, title }) => 
-            <View key={manga_id}>
+            <View key={manga_id} style={styles.item}>
                 <MangaItem 
                     title={title}
                     thumbnail={thumbnail}
@@ -60,15 +60,17 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
+        justifyContent: 'space-around',
     },
     item: {
-        margin: 7,
         flex: 1,
-        width: 90
+        aspectRatio: 0.6,
+        padding: 5,
+        alignItems: 'center'
     },
     thumbnail: {
-        width: 90,
-        height: 120
+        flex: 1,
+        aspectRatio: 0.66,
     },
     title: {
         fontSize: 10,
