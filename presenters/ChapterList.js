@@ -1,18 +1,18 @@
 import React from 'react'
 import { ListView, Text, TouchableHighlight, StyleSheet } from 'react-native'
-import colors from '../../config/colors'
+import colors from '../config/colors'
 
 const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
 const ChapterList = ({ mangaTitle, numberOfChapters, onChapterPress }) => {
-    const rows = Array.from(Array(numberOfChapters).keys()).reverse()
+    const rowsData = Array.from(Array(numberOfChapters).keys()).reverse()
     return (
         <ListView 
             style={styles.container}
-            dataSource={ds.cloneWithRows(rows)}
-            renderRow={key => (
-                <TouchableHighlight style={styles.row} onPress={() => onChapterPress(key)}>
-                    <Text style={styles.title}>{mangaTitle} {key + 1}</Text>
+            dataSource={ds.cloneWithRows(rowsData)}
+            renderRow={chapterNumber => (
+                <TouchableHighlight style={styles.row} onPress={() => onChapterPress(chapterNumber)}>
+                    <Text style={styles.title}>{mangaTitle} {chapterNumber + 1}</Text>
                 </TouchableHighlight>
             )}
         />

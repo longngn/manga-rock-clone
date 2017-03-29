@@ -7,7 +7,7 @@ const ReadButton = ({ title, onPress }) => (
     </TouchableHighlight>
 )
 
-import colors from '../../config/colors'
+import colors from '../config/colors'
 const styles = StyleSheet.create({
     button: {
         backgroundColor: colors.button,

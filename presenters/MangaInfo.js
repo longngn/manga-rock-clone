@@ -1,21 +1,27 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import ReadButton from './ReadButton'
-import { ButtonGroup } from 'react-native-elements';
+import ButtonGroup from './ButtonGroup';
 import ChapterList from './ChapterList'
-import MangaList from './MangaList'
+import { MangaListConnected } from '../containers/mangasContainers'
 
 class MangaInfo extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { selectedIndex: 0 }
-        this.updateIndex = this.updateIndex.bind(this)
+    state = {
+        selectedIndex: 0
     }
-    updateIndex(selectedIndex) { 
+    updateIndex = (selectedIndex) => { 
         this.setState({ selectedIndex })
     }
     render() {
-        const { title, numberOfChapters, thumbnail, description, relatedMangas, onMangaPress, onChapterPress } = this.props
+        const { 
+            title, 
+            numberOfChapters, 
+            thumbnail, 
+            description, 
+            relatedMangas, 
+            onMangaPress, 
+            onChapterPress 
+        } = this.props
 
         let bottomView 
         switch (this.state.selectedIndex) {
@@ -35,8 +41,8 @@ class MangaInfo extends React.Component {
                 />
                 break
             case 2:
-                bottomView = <MangaList
-                    mangas={relatedMangas}
+                bottomView = <MangaListConnected
+                    mangaIds={relatedMangas}
                     onMangaPress={onMangaPress}
                 />
                 break
@@ -61,11 +67,6 @@ class MangaInfo extends React.Component {
                     buttons={['Info', 'Chapters', 'Related']}
                     onPress={this.updateIndex}
                     selectedIndex={this.state.selectedIndex}
-                    containerStyle={styles.buttonGroupContainer}
-                    textStyle={{ color: colors.button }}
-                    selectedTextStyle={{ color: colors.background }}
-                    selectedBackgroundColor={colors.button}
-                    borderStyle={{ borderRightColor: colors.button }}
                 />
 
                 <View style={styles.bottomContainer}>
@@ -76,7 +77,7 @@ class MangaInfo extends React.Component {
     }
 }
 
-import colors from '../../config/colors'
+import colors from '../config/colors'
 const styles = StyleSheet.create({
     container: {
         flex: 1,

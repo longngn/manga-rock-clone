@@ -1,17 +1,6 @@
 import React from 'react'
 import { ListView, Image, Text, StyleSheet, View, TouchableHighlight } from 'react-native';
-
-const groupBy3 = (array) => {
-    let res = [], i, j
-    for(i = 0; i < array.length; i += 3) {
-        let group = []
-        for(j = i; j < Math.min(i + 3, array.length); j += 1) {
-            group.push(array[j])
-        }
-        res.push(group)
-    }
-    return res
-}
+import chunk from 'lodash/chunk'
 
 const MangaItem = ({ title, thumbnail, onPress }) => (
     <TouchableHighlight onPress={onPress} style={{flex: 1}}>
@@ -25,22 +14,21 @@ const MangaItem = ({ title, thumbnail, onPress }) => (
 
 const renderRow = ({ mangaGroup, onMangaPress }) => (
     <View style={styles.row}>
-        {mangaGroup.map(({ manga_id, thumbnail, title }) => 
-            <View key={manga_id} style={styles.item}>
+        {mangaGroup.map(({ mangaId, thumbnail, title }) => 
+            <View key={mangaId} style={styles.item}>
                 <MangaItem 
                     title={title}
                     thumbnail={thumbnail}
-                    onPress={() => onMangaPress(manga_id)}
+                    onPress={() => onMangaPress(mangaId)}
                 />
             </View>
         )}
     </View>
 )
 
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1[0].manga_id !== r2[0].manga_id })
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1[0].mangaId !== r2[0].mangaId })
 const MangaCollection = ({ mangas, onMangaPress }) => {
-    mangas = groupBy3(mangas)
-    mangas = mangas.map(mangaGroup => ({
+    mangas = chunk(mangas, 3).map(mangaGroup => ({
         mangaGroup,
         onMangaPress
     }))
@@ -52,7 +40,7 @@ const MangaCollection = ({ mangas, onMangaPress }) => {
     />
 }
 
-import colors from '../../config/colors'
+import colors from '../config/colors'
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.background,

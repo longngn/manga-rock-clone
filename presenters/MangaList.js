@@ -1,8 +1,6 @@
 import React from 'react'
 import { View, ListView, Image, Text, StyleSheet, TouchableHighlight } from 'react-native';
 
-const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.manga_id !== r2.manga_id })
-
 const renderRow = ({ thumbnail, title, onPress }, sectionId, rowId) => (
     <TouchableHighlight onPress={onPress}>
         <View style={styles.rowContainer}>
@@ -15,20 +13,21 @@ const renderRow = ({ thumbnail, title, onPress }, sectionId, rowId) => (
     </TouchableHighlight>
 )
 
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.mangaId !== r2.mangaId })
 const MangaList = ({ mangas, onMangaPress }) => {
     mangas = mangas.map(manga => ({
         ...manga,
-        onPress: () => onMangaPress(manga.manga_id)
+        onPress: () => onMangaPress(manga.mangaId)
     }))
 
     return <ListView 
         renderRow={renderRow}
-        dataSource={dataSource.cloneWithRows(mangas)}
+        dataSource={ds.cloneWithRows(mangas)}
         style={styles.container}
     />
 }
 
-import colors from '../../config/colors'
+import colors from '../config/colors'
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.background,
